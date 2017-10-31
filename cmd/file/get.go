@@ -7,13 +7,28 @@ import (
 )
 
 func NewCmdGet() *cobra.Command {
+
+	var fileValues FileValues
+
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "Get File command",
+		Long:  `Get the value for the given key in a json or yaml file, otherwise return the file contents.`,
+		Args: func(cmd *cobra.Command, args []string) error {
+			fileValues.ValidateArgs(args)
+			return nil
+		},
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("File get called")
+			fileValues.ValidateFlags()
+			value, err := fileValues.get()
+			if err != nil {
+				panic(err)
+			}
+			rendered, _ := fileValues.render(value)
+			fmt.Println(rendered)
 		},
 	}
 
+	cmd.Flags().StringVarP(&fileValues.Key, "key", "k", "", "key in the file to target")
 	return cmd
 }

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"ci/cmd"
 	"fmt"
 	"os"
+
+	"github.com/DigitalPacific/squirrel/cmd"
 )
 
 func main() {
