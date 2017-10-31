@@ -14,7 +14,7 @@ func NewCmdSet() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "set",
 		Short: "Set file command",
-		Long:  `Long set description`,
+		Long:  `Update the given key in a json or yaml file, otherwise override the file contents with the given value.`,
 		Args: func(cmd *cobra.Command, args []string) error {
 			fileValues.ValidateArgs(args)
 			return nil

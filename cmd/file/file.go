@@ -22,8 +22,8 @@ func NewCmdFile() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "file",
-		Short: "Main File Command",
-		Long:  `Long file description`,
+		Short: "Get and set operations for json,yaml & txt files",
+		Long:  `Get and set operations for json,yaml & txt files`,
 	}
 
 	cmd.AddCommand(NewCmdSet())

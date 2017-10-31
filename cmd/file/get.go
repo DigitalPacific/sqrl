@@ -13,6 +13,7 @@ func NewCmdGet() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "Get File command",
+		Long:  `Get the value for the given key in a json or yaml file, otherwise return the file contents.`,
 		Args: func(cmd *cobra.Command, args []string) error {
 			fileValues.ValidateArgs(args)
 			return nil
