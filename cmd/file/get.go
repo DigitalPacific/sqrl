@@ -2,15 +2,33 @@ package file
 
 import (
 	"fmt"
+
 	"github.com/spf13/cobra"
 )
 
-var getCmd = &cobra.Command{
-	Use:   "get",
-	Short: "Print the version number of Hugo",
-	Long:  `All software has versions. This is Hugo's`,
-	Args:  validateArgs,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hugo Static Site Generator v0.9 -- HEAD")
-	},
+func NewCmdGet() *cobra.Command {
+
+	var fileValues FileValues
+
+	cmd := &cobra.Command{
+		Use:   "get",
+		Short: "Get File command",
+		Long:  `Get the value for the given key in a json or yaml file, otherwise return the file contents.`,
+		Args: func(cmd *cobra.Command, args []string) error {
+			fileValues.ValidateArgs(args)
+			return nil
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fileValues.ValidateFlags()
+			value, err := fileValues.get()
+			if err != nil {
+				panic(err)
+			}
+			rendered, _ := fileValues.render(value)
+			fmt.Println(rendered)
+		},
+	}
+
+	cmd.Flags().StringVarP(&fileValues.Key, "key", "k", "", "key in the file to target")
+	return cmd
 }
