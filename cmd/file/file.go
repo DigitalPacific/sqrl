@@ -33,7 +33,7 @@ func NewCmdFile() *cobra.Command {
 
 func (fileValues *FileValues) ValidateArgs(args []string) {
 	if len(args) < 1 {
-		fmt.Println("please specify a filename")
+		fmt.Println("Please specify a filename")
 		os.Exit(1)
 	}
 
@@ -57,7 +57,7 @@ func (fileValues *FileValues) ValidateArgs(args []string) {
 
 func (fileValues *FileValues) ValidateFlags() {
 	if len(fileValues.File) == 0 {
-		fmt.Println("please specify a filename")
+		fmt.Println("Please specify a filename")
 		os.Exit(1)
 	}
 }
@@ -65,7 +65,7 @@ func (fileValues *FileValues) ValidateFlags() {
 func (fileValues *FileValues) getFileType() string {
 	_, err := os.Stat(fileValues.File)
 	if os.IsNotExist(err) {
-		fmt.Println("please specify a filename")
+		fmt.Println("Please specify a filename")
 		os.Exit(1)
 	}
 	extension := filepath.Ext(fileValues.File)
