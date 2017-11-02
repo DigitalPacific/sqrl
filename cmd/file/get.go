@@ -21,7 +21,7 @@ func NewCmdGet() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			fileValues.ValidateFlags()
 			cfg, err := fileValues.get()
-			subCfg, err := cfg.Get(fileValues.Key)
+			value, err := cfg.Get(fileValues.Key)
 			if err != nil {
 				panic(err)
 			}
