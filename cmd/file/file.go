@@ -94,9 +94,7 @@ func (fileValues *FileValues) get() (*config.Config, error) {
 		cfg, err = config.ParseYamlFile(fileValues.File)
 	}
 
-	subCfg, err := cfg.Get(fileValues.Key)
-
-	return subCfg, err
+	return cfg, err
 }
 
 func (fileValues *FileValues) render(cfg *config.Config) (string, error) {
