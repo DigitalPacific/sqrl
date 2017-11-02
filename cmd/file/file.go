@@ -90,13 +90,13 @@ func (fileValues *FileValues) get() (*config.Config, error) {
 	switch fileType {
 	case "json":
 		cfg, err = config.ParseJsonFile(fileValues.File)
-	case "yaml":
-		cfg, err = config.ParseYamlFile(fileValues.File)
-	case "yml":
+	case "yaml", "yml":
 		cfg, err = config.ParseYamlFile(fileValues.File)
 	}
 
-	return cfg, err
+	subCfg, err := cfg.Get(fileValues.Key)
+
+	return subCfg, err
 }
 
 func (fileValues *FileValues) render(cfg *config.Config) (string, error) {
@@ -108,9 +108,7 @@ func (fileValues *FileValues) render(cfg *config.Config) (string, error) {
 	switch fileType {
 	case "json":
 		outputString, err = pkg.RenderJsonIndent(cfg.Root)
-	case "yaml":
-		outputString, err = config.RenderYaml(cfg.Root)
-	case "yml":
+	case "yaml", "yml":
 		outputString, err = config.RenderYaml(cfg.Root)
 	case "":
 		outputString, err = pkg.RenderText(cfg.Root)
