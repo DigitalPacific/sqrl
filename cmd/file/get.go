@@ -20,7 +20,8 @@ func NewCmdGet() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			fileValues.ValidateFlags()
-			value, err := fileValues.get()
+			cfg, err := fileValues.get()
+			value, err := cfg.Get(fileValues.Key)
 			if err != nil {
 				panic(err)
 			}
