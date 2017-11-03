@@ -1,6 +1,8 @@
 package file
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -105,7 +107,7 @@ func (fileValues *FileValues) render(cfg *config.Config) (string, error) {
 
 	switch fileType {
 	case "json":
-		outputString, err = pkg.RenderJsonIndent(cfg.Root)
+		outputString, err = jsonMarshal(cfg.Root)
 	case "yaml", "yml":
 		outputString, err = config.RenderYaml(cfg.Root)
 	case "":
@@ -124,4 +126,18 @@ func (fileValues *FileValues) set(cfg *config.Config) error {
 	}
 
 	return cfg.Set(fileValues.Key, fileValues.Value)
+}
+
+// jsonMarshal handles marshalling json without escaping html tags in the string
+func jsonMarshal(data interface{}) (string, error) {
+	var buffer bytes.Buffer
+	var indentedBuffer bytes.Buffer
+	encoder := json.NewEncoder(&buffer)
+	encoder.SetEscapeHTML(false)
+	err := encoder.Encode(data)
+	err = json.Indent(&indentedBuffer, buffer.Bytes(), "", "  ")
+	if err != nil {
+		return "", err
+	}
+	return string(indentedBuffer.Bytes()), nil
 }
